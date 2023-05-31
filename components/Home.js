@@ -1,12 +1,13 @@
-import { SafeAreaView, TouchableOpacity, Text, StyleSheet } from "react-native";
+import { SafeAreaView, TouchableOpacity, Text, StyleSheet, ImageBackground } from 'react-native';
 
 const Home = ({ navigation }) => {
+
   return (
-    <SafeAreaView style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Playground')}>
-        <Text style={styles.buttonText}>PLAY</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+      <ImageBackground source={require('../assets/images/background.png')} style={styles.container}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Playground')}>
+          <Text style={styles.buttonText}>PLAY</Text>
+        </TouchableOpacity>
+      </ImageBackground>
   );
 };
 
@@ -17,7 +18,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
-    backgroundColor: "#333",
+    backgroundColor: "rgba(255,255,255,0.3)",
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 8,
@@ -27,6 +28,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   buttonText: {
+    fontFamily: 'PixelFont', // You need to add this font to your project.
     color: "#fff",
     fontSize: 24,
     fontWeight: "bold",
