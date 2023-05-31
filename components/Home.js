@@ -1,9 +1,10 @@
-import { SafeAreaView, TouchableOpacity, Text, StyleSheet, ImageBackground } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, ImageBackground } from 'react-native';
+import BackgroundImage from "../assets/images/background.png";
 
 const Home = ({ navigation }) => {
 
   return (
-      <ImageBackground source={require('../assets/images/background.png')} style={styles.container}>
+      <ImageBackground source={BackgroundImage} style={styles.container}>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Playground')}>
           <Text style={styles.buttonText}>PLAY</Text>
         </TouchableOpacity>
