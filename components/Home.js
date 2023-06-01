@@ -1,13 +1,16 @@
-import { TouchableOpacity, Text, StyleSheet, ImageBackground } from 'react-native';
+import React from 'react';
+import { Text, StyleSheet, ImageBackground, View } from 'react-native';
+import CustomButton from './CustomButton';
 import BackgroundImage from "../assets/images/background.png";
 
 const Home = ({ navigation }) => {
-
   return (
       <ImageBackground source={BackgroundImage} style={styles.container}>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Playground')}>
-          <Text style={styles.buttonText}>PLAY</Text>
-        </TouchableOpacity>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Sokoban</Text>
+          <Text style={styles.subtitle}>by Darloub Games</Text>
+        </View>
+        <CustomButton onPress={() => navigation.navigate('Playground')} text="PLAY" />
       </ImageBackground>
   );
 };
@@ -17,6 +20,24 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  titleContainer: {
+    marginBottom: 20,
+  },
+  title: {
+    fontFamily: 'VT323',
+    color: "#fff",
+    fontSize: 32,
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    textAlign: "center",
+  },
+  subtitle: {
+    fontFamily: 'VT323',
+    color: "#fff",
+    fontSize: 18,
+    fontStyle: "italic",
+    textAlign: "center",
   },
   button: {
     backgroundColor: "rgba(255,255,255,0.3)",
@@ -29,7 +50,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   buttonText: {
-    fontFamily: 'PixelFont', // You need to add this font to your project.
+    fontFamily: 'VT323',
     color: "#fff",
     fontSize: 24,
     fontWeight: "bold",
