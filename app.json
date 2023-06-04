@@ -4,7 +4,7 @@
     "slug": "sokoban-reactNative",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/sprites/characterWalking_2.png",
+    "icon": "./assets/sprites/Crate_Brown.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/logo.png",

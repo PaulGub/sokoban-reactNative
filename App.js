@@ -30,7 +30,7 @@ export default function App() {
             'VT323': require('./assets/fonts/VT323-Regular.ttf'),
         });
         setIsReady(true);
-        SplashScreen.hideAsync();
+        await SplashScreen.hideAsync();
     }
 
     if (!isReady) {
@@ -39,7 +39,7 @@ export default function App() {
 
     return (
         <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator screenOptions={{ headerShown: false }} >
                 <Stack.Screen name={"Home"} component={ Home } />
                 <Stack.Screen name={"Playground"} component={ Playground } />
             </Stack.Navigator>

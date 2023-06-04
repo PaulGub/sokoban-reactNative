@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Audio } from 'expo-av';
 import ClickSound from '../assets/audio/click_sound.mp3';
 
-const CustomButton = ({ onPress, text }) => {
+const Button = ({ onPress, text }) => {
     const soundObject = useRef(new Audio.Sound());
 
     const playSound = async () => {
@@ -17,17 +17,14 @@ const CustomButton = ({ onPress, text }) => {
         }
     };
 
-    const handlePress = () => {
-        playSound();
+    const handlePress = async () => {
+        await playSound();
         onPress();
     };
 
     return (
         <TouchableOpacity onPress={handlePress} style={styles.button}>
-            <LinearGradient
-                colors={['#FFA07A', '#FF4500']}
-                style={styles.gradient}
-            >
+            <LinearGradient colors={['#FFA07A', '#FF4500']} style={styles.gradient}>
                 <Text style={styles.buttonText}>{text}</Text>
             </LinearGradient>
         </TouchableOpacity>
@@ -36,20 +33,17 @@ const CustomButton = ({ onPress, text }) => {
 
 const styles = StyleSheet.create({
     button: {
-        paddingHorizontal: 20,
-        paddingVertical: 15,
-        borderRadius: 25,
         shadowColor: "#CCC",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
         shadowRadius: 3,
         elevation: 5,
-        alignSelf: 'center',
     },
     gradient: {
-        flex: 1,
         justifyContent: 'center',
         borderRadius: 25,
+        paddingHorizontal: 100,
+        paddingVertical: 15,
     },
     buttonText: {
         fontFamily: 'VT323',
@@ -61,4 +55,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default CustomButton;
+export default Button;

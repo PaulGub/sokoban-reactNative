@@ -51,10 +51,9 @@ const moveCharacter = (lastMove, characterWantedPosition, currentCharacterPositi
 
 const moveCharacterAndBox = (lastMove, characterWantedPosition, boxWantedPosition, boxWantedPositionValue, currentCharacterPosition, board) => {
   const newBoard = board.map(row => [...row]);
-  newBoard[currentCharacterPosition.row][currentCharacterPosition.col] = lastMove
-  newBoard[characterWantedPosition.row][characterWantedPosition.col] = CONST.SPRITES.CHARACTER
-  newBoard[boxWantedPosition.row][boxWantedPosition.col] = boxWantedPositionValue === CONST.SPRITES.DESTINATION ? CONST.SPRITES.VALIDATED_BOX : CONST.SPRITES.BOX
-
+  newBoard[currentCharacterPosition.row][currentCharacterPosition.col] = lastMove;
+  newBoard[characterWantedPosition.row][characterWantedPosition.col] = CONST.SPRITES.CHARACTER;
+  newBoard[boxWantedPosition.row][boxWantedPosition.col] = boxWantedPositionValue === CONST.SPRITES.DESTINATION ? CONST.SPRITES.VALIDATED_BOX : CONST.SPRITES.BOX;
   return newBoard;
 }
 

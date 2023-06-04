@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SafeAreaView, View } from "react-native";
+import {ImageBackground, StyleSheet, View} from "react-native";
 import {
   findSpritesPosition, isComplete,
   isFloorOrDestination,
@@ -10,6 +10,7 @@ import {
 import CONST from "../CONST";
 import MoveButtons from "./MoveButtons";
 import Board from "./Board";
+import Ground from "../assets/sprites/Ground_Concrete.png";
 
 const Playground = () => {
 
@@ -35,14 +36,14 @@ const Playground = () => {
       setBoard(updatedBoard)
       setLastMove(characterWantedPositionValue)
       setCurrentCharacterPosition(characterWantedPosition)
-    } else if (characterWantedPositionValue === CONST.SPRITES.BOX) {
+    } else if (characterWantedPositionValue === CONST.SPRITES.BOX || characterWantedPositionValue === CONST.SPRITES.VALIDATED_BOX) {
       const boxWantedPosition = nextSpritePosition(direction, characterWantedPosition)
       const boxWantedPositionValue = board[boxWantedPosition.row][boxWantedPosition.col]
 
       if (isFloorOrDestination(boxWantedPositionValue)) {
         updatedBoard = moveCharacterAndBox(lastMove, characterWantedPosition, boxWantedPosition, boxWantedPositionValue, currentCharacterPosition, board)
         setBoard(updatedBoard)
-        setLastMove(CONST.SPRITES.FLOOR)
+        setLastMove(characterWantedPositionValue === CONST.SPRITES.VALIDATED_BOX ? CONST.SPRITES.DESTINATION : CONST.SPRITES.FLOOR)
         setCurrentCharacterPosition(characterWantedPosition)
       }
     }
@@ -53,13 +54,26 @@ const Playground = () => {
   }
 
   return (
-    <SafeAreaView style={{ backgroundColor: '#c4d4d4', height: '100%' }}>
-      <View style={{ justifyContent: 'space-between', flexGrow: 1, paddingTop: 40, paddingBottom: 10}}>
+    <ImageBackground source={Ground} imageStyle={{ resizeMode: 'repeat' }} style={styles.backgroundImage}>
+      <View style={styles.playground}>
         <Board board={board} />
         <MoveButtons handleMove={handleMove} />
       </View>
-    </SafeAreaView>
+    </ImageBackground>
   );
 }
+
+const styles = StyleSheet.create({
+  backgroundImage: {
+    height: '100%',
+  },
+
+  playground: {
+    justifyContent: 'space-between',
+    flexGrow: 1,
+    paddingTop: 40,
+    paddingBottom: 10,
+  }
+})
 
 export default Playground;

@@ -8,8 +8,8 @@ const Board = ({ board }) => {
       { board.map((row, rowIndex) => (
         <View key={rowIndex} style={{ flexDirection: 'row'}}>
           { row.map((cell, cellIndex) => (
-            <View key={cellIndex} style={{ width: CONST.IMG_WIDTH, height: CONST.IMG_HEIGHT }}>
-              <Image source={ charToImageSource(cell) } />
+            <View key={cellIndex}>
+              <Image source={ charToImageSource(cell) } style={{ width: CONST.IMG_WIDTH, height: CONST.IMG_HEIGHT }} />
             </View>
           ))}
         </View>
