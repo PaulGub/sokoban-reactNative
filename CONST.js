@@ -19,5 +19,5 @@ export default {
     EMPTY: 'E',
   },
 
-  API_BASE_URL: 'https://sokoban-api.onrender.com/api',
+  API_BASE_URI: 'https://sokoban-api.onrender.com/api',
 }
