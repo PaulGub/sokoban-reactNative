@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Playground from "./components/Playground";
 import Home from "./components/Home";
+import BoardList from "./components/BoardList";
 import { Audio } from 'expo-av';
 import Music from "./assets/audio/background_music.mp3";
 import * as Font from 'expo-font';
@@ -41,6 +42,7 @@ export default function App() {
         <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }} >
                 <Stack.Screen name={"Home"} component={ Home } />
+                <Stack.Screen name={"BoardList"} component={ BoardList } />
                 <Stack.Screen name={"Playground"} component={ Playground } />
             </Stack.Navigator>
         </NavigationContainer>

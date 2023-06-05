@@ -20,4 +20,8 @@ export default {
   },
 
   API_BASE_URI: 'https://sokoban-api.onrender.com/api',
+
+  ENDPOINT: {
+    BOARDS: "/boards"
+  }
 }

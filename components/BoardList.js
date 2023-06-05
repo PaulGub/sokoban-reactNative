@@ -1,0 +1,76 @@
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, ImageBackground } from "react-native";
+import sokobanApi from "../services/sokobanApi";
+import CONST from "../CONST";
+import BoardItem from './BoardItems';
+import Background from '../assets/images/background2.jpg'
+
+const BoardList = () => {
+    const [boards, setBoards] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const result = await sokobanApi.get(CONST.ENDPOINT.BOARDS);
+                setBoards(result.data);
+            } catch (error) {
+                console.error("Error fetching boards:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    return (
+        <SafeAreaView style={styles.container}>
+            <ImageBackground source={Background} style={styles.imageBackground}>
+                <ScrollView contentContainerStyle={styles.scrollView}>
+                    <View style={styles.textContainer}>
+                        <View style={styles.titleContainer}>
+                            <Text style={styles.title}>Choisissez Votre Niveau</Text>
+                            <Text style={styles.description}>Explorez une variété de niveaux, du plus facile au plus difficile. Choisissez le niveau qui correspond le mieux à votre compétence et votre humeur du moment. Préparez-vous à un défi stimulant!</Text>
+                        </View>
+                    </View>
+                    {boards.map((board) => (
+                        <BoardItem key={board.id} board={board} />
+                    ))}
+                </ScrollView>
+            </ImageBackground>
+        </SafeAreaView>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    imageBackground: {
+        flex: 1,
+        resizeMode: "cover",
+        justifyContent: "center"
+    },
+    scrollView: {
+        paddingVertical: 50
+    },
+    textContainer: {
+        backgroundColor: 'rgba(255,255,255,0.8)', // White with 80% opacity
+        borderRadius: 10,
+        padding: 10,
+        margin: 20,
+    },
+    titleContainer: {
+        padding: 20,
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: '#333',
+    },
+    description: {
+        marginTop: 10,
+        fontSize: 18,
+        color: '#666'
+    },
+});
+
+export default BoardList;

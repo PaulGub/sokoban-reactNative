@@ -8,9 +8,9 @@ const Home = ({ navigation }) => {
       <ImageBackground source={BackgroundImage} style={styles.container}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Sokoban</Text>
-          <Text style={styles.subtitle}>by Darloub Games</Text>
+          <Text style={styles.subtitle}>par Darloub Games</Text>
         </View>
-        <Button onPress={() => navigation.navigate('Playground')} text="PLAY" />
+        <Button onPress={() => navigation.navigate('BoardList')} text="JOUER" />
       </ImageBackground>
   );
 };
