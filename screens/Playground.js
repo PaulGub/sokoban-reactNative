@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {ImageBackground, StyleSheet, Text, View} from "react-native";
+import { ActivityIndicator, ImageBackground, StyleSheet, View } from "react-native";
 import {
   findSpritesPosition, isComplete,
   isFloorOrDestination,
@@ -70,7 +70,7 @@ const Playground = ({ navigation, route }) => {
   }
 
   const handleCloseModal = () => {
-    navigation.navigate('Playground', { boardId: boardApi.nextBoardId });
+    boardApi.nextBoardId ? navigation.navigate('Playground', { boardId: boardApi.nextBoardId }) : navigation.navigate('BoardList');
     setModalVisible(false);
   }
 
@@ -79,7 +79,6 @@ const Playground = ({ navigation, route }) => {
       {
         !loading ?
           <View style={styles.container}>
-
             <View style={styles.playground}>
               <Title name={boardApi.name} gradientColors={getBackgroundColor(boardApi.difficulty)} textColor="white"></Title>
               <Board board={board} />
@@ -87,7 +86,9 @@ const Playground = ({ navigation, route }) => {
             </View>
             <DialogModal modalVisible={modalVisible} modalText={"Niveau Complété !"} closeModal={handleCloseModal} btnText={"Suivant"} />
           </View> :
-          <></>
+          <View style={styles.loaderContainer}>
+            <ActivityIndicator size="large" />
+          </View>
       }
     </ImageBackground>
   );
@@ -96,6 +97,12 @@ const Playground = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+
+  loaderContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignContent: "center"
   },
 
   backgroundImage: {
