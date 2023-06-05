@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, ImageBackground } from "react-native";
+import {View, Text, StyleSheet, SafeAreaView, ScrollView, ImageBackground, ActivityIndicator} from "react-native";
 import sokobanApi from "../services/sokobanApi";
 import CONST from "../CONST";
 import BoardItem from '../components/BoardItems';
@@ -7,12 +7,14 @@ import Background from '../assets/images/background2.jpg'
 
 const BoardList = () => {
     const [boards, setBoards] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const result = await sokobanApi.get(CONST.ENDPOINT.BOARDS);
                 setBoards(result.data);
+                setLoading(false)
             } catch (error) {
                 console.error("Error fetching boards:", error);
             }
@@ -31,9 +33,15 @@ const BoardList = () => {
                             <Text style={styles.description}>Explorez une variété de niveaux, du plus facile au plus difficile. Choisissez le niveau qui correspond le mieux à votre compétence et votre humeur du moment. Préparez-vous à un défi stimulant!</Text>
                         </View>
                     </View>
-                    {boards.map((board) => (
-                        <BoardItem key={board.id} board={board} />
-                    ))}
+                    {
+                        !loading ?
+                          boards.map((board) => (
+                                <BoardItem key={board.id} board={board} />
+                              )) :
+                          <View style={styles.loaderContainer}>
+                              <ActivityIndicator size="large" />
+                          </View>
+                    }
                 </ScrollView>
             </ImageBackground>
         </SafeAreaView>
@@ -48,6 +56,11 @@ const styles = StyleSheet.create({
         flex: 1,
         resizeMode: "cover",
         justifyContent: "center"
+    },
+    loaderContainer: {
+        flexGrow: 1,
+        justifyContent: "center",
+        alignContent: "center"
     },
     scrollView: {
         paddingVertical: 50

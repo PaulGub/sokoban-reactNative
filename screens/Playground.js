@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   },
 
   loaderContainer: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: "center",
     alignContent: "center"
   },
