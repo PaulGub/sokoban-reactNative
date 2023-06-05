@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, StyleSheet, ImageBackground, View } from 'react-native';
-import Button from './Button';
+import Button from '../components/Button';
 import BackgroundImage from "../assets/images/background.png";
 
 const Home = ({ navigation }) => {

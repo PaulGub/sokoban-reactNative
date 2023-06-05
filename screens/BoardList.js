@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, ImageBackground } from "react-native";
 import sokobanApi from "../services/sokobanApi";
 import CONST from "../CONST";
-import BoardItem from './BoardItems';
+import BoardItem from '../components/BoardItems';
 import Background from '../assets/images/background2.jpg'
 
 const BoardList = () => {
