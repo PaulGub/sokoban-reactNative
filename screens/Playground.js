@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ImageBackground, StyleSheet, View } from "react-native";
+import {ImageBackground, StyleSheet, Text, View} from "react-native";
 import {
   findSpritesPosition, isComplete,
   isFloorOrDestination,
@@ -13,6 +13,8 @@ import Board from "../components/Board";
 import Ground from "../assets/sprites/Ground_Concrete.png";
 import DialogModal from "../components/DialogModal";
 import sokobanApi from "../services/sokobanApi";
+import Title from "../components/Title";
+import {getBackgroundColor} from "../helpers/help";
 
 const Playground = ({ navigation, route }) => {
 
@@ -77,7 +79,9 @@ const Playground = ({ navigation, route }) => {
       {
         !loading ?
           <View style={styles.container}>
+
             <View style={styles.playground}>
+              <Title name={boardApi.name} gradientColors={getBackgroundColor(boardApi.difficulty)} textColor="white"></Title>
               <Board board={board} />
               <MoveButtons handleMove={handleMove} />
             </View>
@@ -102,7 +106,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexGrow: 1,
     paddingTop: 40,
-    paddingBottom: 10,
+    paddingBottom: 30,
   }
 })
 

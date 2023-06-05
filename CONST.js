@@ -19,6 +19,12 @@ export default {
     EMPTY: 'E',
   },
 
+  DIFFICULTY: {
+    EASY: 'easy',
+    NORMAL: 'normal',
+    HARD: 'hard',
+  },
+
   API_BASE_URI: 'https://sokoban-api.onrender.com/api',
 
   ENDPOINT: {

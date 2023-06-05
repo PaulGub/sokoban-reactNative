@@ -1,21 +1,9 @@
-// BoardItem.js
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Button from './Button';
+import {getBackgroundColor} from "../helpers/help";
 
-const getBackgroundColor = (difficulty) => {
-    switch (difficulty) {
-        case 'easy':
-            return ['#D6FDD6', 'green'];
-        case 'medium':
-            return ['#FEF3C7', 'yellow'];
-        case 'hard':
-            return ['#FED7D7', 'red'];
-        default:
-            return ['#FFF', '#CCC'];
-    }
-}
 
 const BoardItem = ({ board }) => {
     const navigation = useNavigation();

@@ -1,12 +1,14 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import { Text, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 
-const Title = ({name, subName}) => {
+const Title = ({ name, gradientColors, textColor }) => {
     return (
-        <View className={" bg-sky-500 py-10 "}>
-            <Text className={"uppercase text-4xl text-stone-50 text-center"}>{name}</Text>
-            <Text className={"text-stone-50 text-center italic"}>{subName}</Text>
-        </View>
+        <LinearGradient colors={gradientColors} style={{ paddingVertical: 15, margin: 20, borderRadius: 15 }}>
+            <Text style={{ textTransform: 'uppercase', fontSize: 25, color: textColor, textAlign: 'center' }}>
+                {name}
+            </Text>
+        </LinearGradient>
     );
 };
 
