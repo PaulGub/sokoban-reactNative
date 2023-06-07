@@ -1,7 +1,6 @@
-import { Modal, StyleSheet, Text, View } from 'react-native';
-import Button from "./Button";
+import { Modal, StyleSheet, View } from 'react-native';
 
-const DialogModal = ({ modalVisible, modalText, btnText, closeModal }) => {
+const DialogModal = ({ modalVisible, children }) => {
   return (
       <Modal
           animationType="fade"
@@ -10,10 +9,7 @@ const DialogModal = ({ modalVisible, modalText, btnText, closeModal }) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>{modalText}</Text>
-            <Button radius={10} onPress={closeModal} >
-              <Text style={styles.text}>{btnText}</Text>
-            </Button>
+            {children}
           </View>
         </View>
       </Modal>
@@ -28,10 +24,11 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
+    position: "relative",
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
-    padding: 35,
+    padding: 30,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -41,34 +38,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3',
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    fontSize: 28,
-    textAlign: 'center',
-  },
-  text: {
-    color: "#fff",
-    fontSize: 18,
-    textAlign: "center",
-    paddingHorizontal: 10,
-    paddingVertical: 15
   },
 });
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, ImageBackground, StyleSheet, View } from "react-native";
+import {ActivityIndicator, ImageBackground, StyleSheet, Text, View} from "react-native";
 import { findSpritesPosition, isComplete, isFloorOrDestination, moveCharacter, moveCharacterAndBox, nextSpritePosition, secondsToReadable } from "../helpers/game";
 import CONST from "../CONST";
 import MoveButtons from "../components/MoveButtons";
@@ -11,6 +11,9 @@ import { getBackgroundColor } from "../helpers/colors";
 import Confetti from "react-native-confetti";
 import { floorImages } from "../helpers/sprites";
 import { getData } from "../services/asyncStorage";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import Button from "../components/Button";
+import staticBoards from '../staticBoards.json';
 
 const Playground = ({ navigation, route }) => {
 
@@ -47,12 +50,21 @@ const Playground = ({ navigation, route }) => {
 
   const fetchData = async () => {
     const boardId = route.params.boardId;
-    const result = await sokobanApi.get(`${CONST.ENDPOINT.BOARDS}/${boardId}`);
-    setBoardApi(result.data);
-    setBoard(result.data.rows);
-    setCurrentCharacterPosition(findSpritesPosition(result.data.rows, CONST.SPRITES.CHARACTER));
-    setLoading(false);
-    setIsLevelComplete(false);
+    try {
+      const result = await sokobanApi.get(`${CONST.ENDPOINT.BOARDS}/${boardId}`);
+      setBoardApi(result.data);
+      setBoard(result.data.rows);
+      setCurrentCharacterPosition(findSpritesPosition(result.data.rows, CONST.SPRITES.CHARACTER));
+      setLoading(false);
+      setIsLevelComplete(false);
+    } catch (e) {
+      console.log(e);
+      setBoardApi(staticBoards[boardId]);
+      setBoard(staticBoards[boardId].board);
+      setCurrentCharacterPosition(findSpritesPosition(staticBoards[boardId].board, CONST.SPRITES.CHARACTER));
+      setLoading(false);
+      setIsLevelComplete(false);
+    }
   };
 
   const resetGame = async () => {
@@ -92,13 +104,11 @@ const Playground = ({ navigation, route }) => {
     }
   };
 
-  const handleCloseModal = () => {
+  const handleNextBoard = () => {
     setModalVisible(false);
     confettiRef.current.stopConfetti();
     setLoading(true);
-    boardApi.nextBoardId ?
-      navigation.navigate(CONST.SCREENS.PLAYGROUND, { boardId: boardApi.nextBoardId }) :
-      navigation.navigate(CONST.SCREENS.BOARD_LIST);
+    navigation.navigate(CONST.SCREENS.PLAYGROUND, { boardId: boardApi.nextBoardId })
   }
 
   return (
@@ -107,11 +117,44 @@ const Playground = ({ navigation, route }) => {
           !loading ?
               <View style={styles.container}>
                 <View style={styles.playground}>
-                  <Title name={boardApi.name} gradientColors={getBackgroundColor(boardApi.difficulty)} textColor="white" subtitle={`Time: ${secondsToReadable(seconds)}`} />
-                  <Board board={board} direction={clickedDirection} wallColor={wall} boxColor={box} destinationColor={destination} floorColor={floor} />
+                  <Title name={boardApi.name} gradientColors={getBackgroundColor(boardApi.difficulty)} textColor="white">
+                    <View style={{ flexDirection: "row", alignSelf: "center", alignItems: "center", gap: 5 }}>
+                      <Ionicons name={"md-time"} size={16} color={"white"} />
+                      <Text style={{ color: "white" }}>{secondsToReadable(seconds)}</Text>
+                    </View>
+                  </Title>
+                  <Board
+                    board={board}
+                    direction={clickedDirection}
+                    wallColor={wall}
+                    boxColor={box}
+                    destinationColor={destination}
+                    floorColor={floor}
+                  />
                   <MoveButtons handleMove={handleMove} resetGame={resetGame} />
                 </View>
-                <DialogModal modalVisible={modalVisible} modalText={"Niveau Complété !"} closeModal={handleCloseModal} btnText={"Suivant"} />
+                <DialogModal modalVisible={modalVisible}>
+                  <View style={styles.modalTextContainer}>
+                    <Text style={styles.modalTitle}>Niveau Complété !</Text>
+                    <Text>Votre temps : {secondsToReadable(seconds)}</Text>
+                  </View>
+                  <View style={styles.btnContainer}>
+                    <Button onPress={() => navigation.navigate(CONST.SCREENS.BOARD_LIST)} radius={10}>
+                      <View style={styles.btn}>
+                        <Ionicons name={"md-list"} size={20} color={"white"} />
+                        <Text style={styles.btnColor}>Menu</Text>
+                      </View>
+                    </Button>
+                    {boardApi.nextBoardId ?
+                      <Button onPress={handleNextBoard} radius={10}>
+                        <View style={styles.btn}>
+                          <Text style={styles.btnColor}>Suivant</Text>
+                          <Ionicons name={"md-arrow-forward"} size={20} color={"white"} />
+                        </View>
+                      </Button> : null
+                    }
+                  </View>
+                </DialogModal>
                 <Confetti ref={confettiRef} />
               </View> :
               <View style={styles.loaderContainer}>
@@ -149,6 +192,35 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-})
+  modalTextContainer: {
+    gap: 20,
+    alignItems: "center",
+    paddingHorizontal: 50,
+    paddingBottom: 30
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  btnContainer: {
+    position: "absolute",
+    flexDirection: "row",
+    justifyContent: "center",
+    width: "100%",
+    bottom: -25,
+    left: 10,
+    gap: 20,
+    zIndex: 1
+  },
+  btn: {
+    padding: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  btnColor: {
+    color: "white"
+  }
+});
 
 export default Playground;

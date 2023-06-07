@@ -3,7 +3,8 @@ import {View, Text, StyleSheet, SafeAreaView, ScrollView, ImageBackground, Activ
 import sokobanApi from "../services/sokobanApi";
 import CONST from "../CONST";
 import BoardItem from '../components/BoardItems';
-import Background from '../assets/images/background2.jpg'
+import Background from '../assets/images/background2.jpg';
+import staticBoard from '../staticBoards.json';
 
 const BoardList = () => {
     const [boards, setBoards] = useState([]);
@@ -17,6 +18,7 @@ const BoardList = () => {
                 setLoading(false)
             } catch (error) {
                 console.error("Error fetching boards:", error);
+                setBoards(staticBoard)
             }
         };
 
