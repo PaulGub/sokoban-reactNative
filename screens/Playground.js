@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, ImageBackground, StyleSheet, View } from "react-native";
 import {
   findSpritesPosition, isComplete,
@@ -14,16 +14,19 @@ import Ground from "../assets/sprites/Ground_Concrete.png";
 import DialogModal from "../components/DialogModal";
 import sokobanApi from "../services/sokobanApi";
 import Title from "../components/Title";
-import {getBackgroundColor} from "../helpers/help";
+import { getBackgroundColor } from "../helpers/help";
+import Confetti from "react-native-confetti";
 
 const Playground = ({ navigation, route }) => {
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [boardApi, setBoardApi] = useState({});
+  const [boardApi, setBoardApi] = useState({ nextBoardId: null, difficulty: '' });
   const [board, setBoard] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentCharacterPosition, setCurrentCharacterPosition] = useState({});
   const [lastMove, setLastMove] = useState(CONST.SPRITES.FLOOR);
+  const [clickedDirection, setClickedDirection] = useState(null);
+  const confettiRef = useRef();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,6 +46,8 @@ const Playground = ({ navigation, route }) => {
   }, [route.params?.boardId]);
 
   const handleMove = (direction) => {
+    setClickedDirection(direction);
+
     const characterWantedPosition = nextSpritePosition(direction, currentCharacterPosition);
     const characterWantedPositionValue = board[characterWantedPosition.row][characterWantedPosition.col];
     let updatedBoard = board;
@@ -66,12 +71,14 @@ const Playground = ({ navigation, route }) => {
 
     if (isComplete(updatedBoard)) {
       setModalVisible(true)
+      confettiRef.current.startConfetti();
     }
-  }
+  };
 
   const handleCloseModal = () => {
     boardApi.nextBoardId ? navigation.navigate('Playground', { boardId: boardApi.nextBoardId }) : navigation.navigate('BoardList');
     setModalVisible(false);
+    confettiRef.current.stopConfetti();
   }
 
   return (
@@ -81,10 +88,11 @@ const Playground = ({ navigation, route }) => {
           <View style={styles.container}>
             <View style={styles.playground}>
               <Title name={boardApi.name} gradientColors={getBackgroundColor(boardApi.difficulty)} textColor="white"></Title>
-              <Board board={board} />
+              <Board board={board} direction={clickedDirection} />
               <MoveButtons handleMove={handleMove} />
             </View>
             <DialogModal modalVisible={modalVisible} modalText={"Niveau Complété !"} closeModal={handleCloseModal} btnText={"Suivant"} />
+            <Confetti ref={confettiRef} />
           </View> :
           <View style={styles.loaderContainer}>
             <ActivityIndicator size="large" />

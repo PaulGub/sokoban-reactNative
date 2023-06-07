@@ -1,6 +1,6 @@
 export default {
-  IMG_WIDTH: 32,
-  IMG_HEIGHT: 32,
+  IMG_WIDTH: 40,
+  IMG_HEIGHT: 40,
 
   DIRECTIONS: {
     BACK: 'back',

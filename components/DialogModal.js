@@ -1,17 +1,7 @@
-import React, { useRef, useEffect } from 'react';
 import { Modal, StyleSheet, Text, View } from 'react-native';
 import Button from "./Button";
-import Confetti from 'react-native-confetti';
 
 const DialogModal = ({ modalVisible, modalText, btnText, closeModal }) => {
-  const confettiRef = useRef();
-
-  useEffect(() => {
-    if (modalVisible) {
-      confettiRef.current.startConfetti();
-    }
-  }, [modalVisible]);
-
   return (
       <Modal
           animationType="fade"
@@ -19,7 +9,6 @@ const DialogModal = ({ modalVisible, modalText, btnText, closeModal }) => {
           visible={modalVisible}
       >
         <View style={styles.centeredView}>
-          <Confetti ref={confettiRef} />
           <View style={styles.modalView}>
             <Text style={styles.modalText}>{modalText}</Text>
             <Button onPress={closeModal} text={btnText} />
