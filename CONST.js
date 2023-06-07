@@ -2,6 +2,13 @@ export default {
   IMG_WIDTH: 40,
   IMG_HEIGHT: 40,
 
+  SCREENS: {
+    HOME: 'Home',
+    BOARD_LIST: 'BoardList',
+    PLAYGROUND: 'Playground',
+    SETTINGS: 'Settings'
+  },
+
   DIRECTIONS: {
     BACK: 'back',
     UP: 'up',

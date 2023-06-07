@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, ImageBackground, StyleSheet, View, Text } from "react-native";
+import { ActivityIndicator, ImageBackground, StyleSheet, View } from "react-native";
 import { findSpritesPosition, isComplete, isFloorOrDestination, moveCharacter, moveCharacterAndBox, nextSpritePosition } from "../helpers/game";
 import CONST from "../CONST";
 import MoveButtons from "../components/MoveButtons";
@@ -10,8 +10,6 @@ import sokobanApi from "../services/sokobanApi";
 import Title from "../components/Title";
 import { getBackgroundColor } from "../helpers/help";
 import Confetti from "react-native-confetti";
-import { Ionicons } from '@expo/vector-icons';
-import Button from "../components/Button";
 
 const Playground = ({ navigation, route }) => {
 
@@ -23,6 +21,7 @@ const Playground = ({ navigation, route }) => {
   const [lastMove, setLastMove] = useState(CONST.SPRITES.FLOOR);
   const [clickedDirection, setClickedDirection] = useState(null);
   const [seconds, setSeconds] = useState(0);
+  const [isLevelComplete, setIsLevelComplete] = useState(false)
   const confettiRef = useRef();
 
   useEffect(() => {
@@ -32,10 +31,12 @@ const Playground = ({ navigation, route }) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setSeconds(seconds => seconds + 1);
+      if (!isLevelComplete) {
+        setSeconds(seconds => seconds + 1);
+      }
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isLevelComplete]);
 
   const fetchData = async () => {
     const boardId = route.params.boardId;
@@ -44,11 +45,11 @@ const Playground = ({ navigation, route }) => {
     setBoard(result.data.rows);
     setCurrentCharacterPosition(findSpritesPosition(result.data.rows, CONST.SPRITES.CHARACTER));
     setLoading(false);
+    setIsLevelComplete(false);
   };
 
   const resetGame = async () => {
     setLoading(true);
-    setSeconds(0);
     await fetchData();
     setLoading(false);
   };
@@ -77,13 +78,16 @@ const Playground = ({ navigation, route }) => {
     }
 
     if (isComplete(updatedBoard)) {
+      setIsLevelComplete(true);
       setModalVisible(true)
       confettiRef.current.startConfetti();
     }
   };
 
   const handleCloseModal = () => {
-    boardApi.nextBoardId ? navigation.navigate('Playground', { boardId: boardApi.nextBoardId }) : navigation.navigate('BoardList');
+    boardApi.nextBoardId ?
+      navigation.navigate(CONST.SCREENS.PLAYGROUND, { boardId: boardApi.nextBoardId }) :
+      navigation.navigate(CONST.SCREENS.BOARD_LIST);
     setModalVisible(false);
     confettiRef.current.stopConfetti();
   }

@@ -2,7 +2,8 @@ import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Button from './Button';
-import {getBackgroundColor} from "../helpers/help";
+import { getBackgroundColor } from "../helpers/help";
+import CONST from "../CONST";
 
 
 const BoardItem = ({ board }) => {
@@ -10,7 +11,7 @@ const BoardItem = ({ board }) => {
     const backgroundColor = getBackgroundColor(board.difficulty);
 
     const handlePress = () => {
-        navigation.navigate('Playground', { boardId: board.id });
+        navigation.navigate(CONST.SCREENS.PLAYGROUND, { boardId: board.id });
     }
 
     return (

@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, StyleSheet, ImageBackground, View } from 'react-native';
 import Button from '../components/Button';
 import BackgroundImage from "../assets/images/background.png";
+import CONST from "../CONST";
 
 const Home = ({ navigation }) => {
   return (
@@ -10,7 +11,7 @@ const Home = ({ navigation }) => {
           <Text style={styles.title}>Sokoban</Text>
           <Text style={styles.subtitle}>par Darloub Games</Text>
         </View>
-        <Button onPress={() => navigation.navigate('BoardList')}>
+        <Button onPress={() => navigation.navigate(CONST.SCREENS.BOARD_LIST)}>
           <Text style={styles.text}>JOUER</Text>
         </Button>
       </ImageBackground>
@@ -27,7 +28,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   title: {
-    fontFamily: 'VT323',
     color: "#fff",
     fontSize: 32,
     fontWeight: "bold",
@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   subtitle: {
-    fontFamily: 'VT323',
     color: "#fff",
     fontSize: 18,
     fontStyle: "italic",

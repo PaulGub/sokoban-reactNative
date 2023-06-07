@@ -1,38 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Audio } from 'expo-av';
+import Music from "./assets/audio/background_music.mp3";
+import * as SplashScreen from 'expo-splash-screen';
+
 import Playground from "./screens/Playground";
 import Home from "./screens/Home";
 import BoardList from "./screens/BoardList";
-import { Audio } from 'expo-av';
-import Music from "./assets/audio/background_music.mp3";
-import * as Font from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
+import CONST from "./CONST";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
     const [isReady, setIsReady] = useState(false);
 
-    SplashScreen.preventAutoHideAsync()
-        .catch(() => { /* Preventing auto hide is only available in bare workflow */ });
+    SplashScreen.preventAutoHideAsync().catch((err) => {
+        console.log(err)
+    });
 
     useEffect(() => {
         (async () => {
             const { sound } = await Audio.Sound.createAsync(Music);
             await sound.setIsLoopingAsync(true);
             await sound.playAsync();
-            await loadFonts();
+            setIsReady(true);
+            await SplashScreen.hideAsync();
         })();
     }, []);
-
-    async function loadFonts() {
-        await Font.loadAsync({
-            'VT323': require('./assets/fonts/VT323-Regular.ttf'),
-        });
-        setIsReady(true);
-        await SplashScreen.hideAsync();
-    }
 
     if (!isReady) {
         return null;
@@ -41,9 +36,9 @@ export default function App() {
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }} >
-                <Stack.Screen name={"Home"} component={ Home } />
-                <Stack.Screen name={"BoardList"} component={ BoardList } />
-                <Stack.Screen name={"Playground"} component={ Playground } />
+                <Stack.Screen name={CONST.SCREENS.HOME} component={ Home } />
+                <Stack.Screen name={CONST.SCREENS.BOARD_LIST} component={ BoardList } />
+                <Stack.Screen name={CONST.SCREENS.PLAYGROUND} component={ Playground } />
             </Stack.Navigator>
         </NavigationContainer>
     );
