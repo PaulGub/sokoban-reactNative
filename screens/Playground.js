@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, ImageBackground, StyleSheet, View } from "react-native";
-import { findSpritesPosition, isComplete, isFloorOrDestination, moveCharacter, moveCharacterAndBox, nextSpritePosition } from "../helpers/game";
+import { findSpritesPosition, isComplete, isFloorOrDestination, moveCharacter, moveCharacterAndBox, nextSpritePosition, secondsToReadable } from "../helpers/game";
 import CONST from "../CONST";
 import MoveButtons from "../components/MoveButtons";
 import Board from "../components/Board";
@@ -8,7 +8,7 @@ import Ground from "../assets/sprites/Ground_Concrete.png";
 import DialogModal from "../components/DialogModal";
 import sokobanApi from "../services/sokobanApi";
 import Title from "../components/Title";
-import { getBackgroundColor } from "../helpers/help";
+import { getBackgroundColor } from "../helpers/colors";
 import Confetti from "react-native-confetti";
 
 const Playground = ({ navigation, route }) => {
@@ -50,6 +50,7 @@ const Playground = ({ navigation, route }) => {
 
   const resetGame = async () => {
     setLoading(true);
+    setSeconds(0);
     await fetchData();
     setLoading(false);
   };
@@ -85,11 +86,12 @@ const Playground = ({ navigation, route }) => {
   };
 
   const handleCloseModal = () => {
+    setModalVisible(false);
+    confettiRef.current.stopConfetti();
+    setLoading(true);
     boardApi.nextBoardId ?
       navigation.navigate(CONST.SCREENS.PLAYGROUND, { boardId: boardApi.nextBoardId }) :
       navigation.navigate(CONST.SCREENS.BOARD_LIST);
-    setModalVisible(false);
-    confettiRef.current.stopConfetti();
   }
 
   return (
@@ -98,7 +100,7 @@ const Playground = ({ navigation, route }) => {
           !loading ?
               <View style={styles.container}>
                 <View style={styles.playground}>
-                  <Title name={boardApi.name} gradientColors={getBackgroundColor(boardApi.difficulty)} textColor="white" subtitle={`Time: ${seconds}s`} />
+                  <Title name={boardApi.name} gradientColors={getBackgroundColor(boardApi.difficulty)} textColor="white" subtitle={`Time: ${secondsToReadable(seconds)}`} />
                   <Board board={board} direction={clickedDirection} />
                   <MoveButtons handleMove={handleMove} resetGame={resetGame} />
                 </View>

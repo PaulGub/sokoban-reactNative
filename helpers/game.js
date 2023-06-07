@@ -1,10 +1,10 @@
 import CONST from "../CONST";
 
-const isFloorOrDestination = (wantedPositionValue) => {
+export const isFloorOrDestination = (wantedPositionValue) => {
   return wantedPositionValue === CONST.SPRITES.FLOOR || wantedPositionValue === CONST.SPRITES.DESTINATION;
 };
 
-const nextSpritePosition = (direction, currentPosition) => {
+export const nextSpritePosition = (direction, currentPosition) => {
   switch (direction) {
     case CONST.DIRECTIONS.UP:
       return { row: currentPosition.row - 1, col: currentPosition.col }
@@ -19,7 +19,7 @@ const nextSpritePosition = (direction, currentPosition) => {
   }
 }
 
-const findSpritesPosition = (board, sprite) => {
+export const findSpritesPosition = (board, sprite) => {
   const positions = [];
 
   for (let row = 0; row < board.length; row++) {
@@ -39,7 +39,7 @@ const findSpritesPosition = (board, sprite) => {
   }
 };
 
-const moveCharacter = (lastMove, characterWantedPosition, currentCharacterPosition, board) => {
+export const moveCharacter = (lastMove, characterWantedPosition, currentCharacterPosition, board) => {
   const newBoard = board.map(row => [...row]);
 
   newBoard[currentCharacterPosition.row][currentCharacterPosition.col] = lastMove;
@@ -49,7 +49,7 @@ const moveCharacter = (lastMove, characterWantedPosition, currentCharacterPositi
   return newBoard;
 }
 
-const moveCharacterAndBox = (lastMove, characterWantedPosition, boxWantedPosition, boxWantedPositionValue, currentCharacterPosition, board) => {
+export const moveCharacterAndBox = (lastMove, characterWantedPosition, boxWantedPosition, boxWantedPositionValue, currentCharacterPosition, board) => {
   const newBoard = board.map(row => [...row]);
   newBoard[currentCharacterPosition.row][currentCharacterPosition.col] = lastMove;
   newBoard[characterWantedPosition.row][characterWantedPosition.col] = CONST.SPRITES.CHARACTER;
@@ -58,15 +58,25 @@ const moveCharacterAndBox = (lastMove, characterWantedPosition, boxWantedPositio
 }
 
 
-const isComplete = (board) => {
+export const isComplete = (board) => {
   return findSpritesPosition(board, CONST.SPRITES.BOX) === null
 }
 
-export {
-  nextSpritePosition,
-  findSpritesPosition,
-  moveCharacter,
-  moveCharacterAndBox,
-  isFloorOrDestination,
-  isComplete
+export const secondsToReadable = (seconds) => {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const remainingSeconds = seconds % 60;
+
+  let result = "";
+  if (hours > 0) {
+    result += hours + "h ";
+  }
+  if (minutes > 0) {
+    result += minutes + "m ";
+  }
+  if (remainingSeconds > 0 || result === "") {
+    result += remainingSeconds + "s";
+  }
+
+  return result.trim();
 }

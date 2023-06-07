@@ -29,8 +29,11 @@ const BoardList = () => {
                 <ScrollView contentContainerStyle={styles.scrollView}>
                     <View style={styles.textContainer}>
                         <View style={styles.titleContainer}>
-                            <Text style={styles.title}>Choisissez Votre Niveau</Text>
-                            <Text style={styles.description}>Explorez une variété de niveaux, du plus facile au plus difficile. Choisissez le niveau qui correspond le mieux à votre compétence et votre humeur du moment. Préparez-vous à un défi stimulant!</Text>
+                            <Text style={styles.title}>Choisissez votre niveau</Text>
+                            <Text style={styles.description}>
+                                Explorez une variété de niveaux, du plus facile au plus difficile.
+                                Choisissez le niveau qui correspond le mieux à votre compétence et votre humeur.
+                            </Text>
                         </View>
                     </View>
                     {

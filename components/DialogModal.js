@@ -11,7 +11,7 @@ const DialogModal = ({ modalVisible, modalText, btnText, closeModal }) => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>{modalText}</Text>
-            <Button onPress={closeModal} >
+            <Button radius={10} onPress={closeModal} >
               <Text style={styles.text}>{btnText}</Text>
             </Button>
           </View>

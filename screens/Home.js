@@ -11,7 +11,7 @@ const Home = ({ navigation }) => {
           <Text style={styles.title}>Sokoban</Text>
           <Text style={styles.subtitle}>par Darloub Games</Text>
         </View>
-        <Button onPress={() => navigation.navigate(CONST.SCREENS.BOARD_LIST)}>
+        <Button radius={50} onPress={() => navigation.navigate(CONST.SCREENS.BOARD_LIST)}>
           <Text style={styles.text}>JOUER</Text>
         </Button>
       </ImageBackground>
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 18,
     textAlign: "center",
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     paddingVertical: 15
   },
 });

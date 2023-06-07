@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Button from './Button';
-import { getBackgroundColor } from "../helpers/help";
+import { getBackgroundColor } from "../helpers/colors";
 import CONST from "../CONST";
 
 
@@ -17,7 +17,7 @@ const BoardItem = ({ board }) => {
     return (
         <TouchableOpacity onPress={handlePress}>
             <View style={[styles.boardContainer]}>
-                <Button onPress={handlePress} colors={backgroundColor} >
+                <Button radius={25} onPress={handlePress} colors={backgroundColor} >
                     <Text style={styles.text}>{board.name}</Text>
                 </Button>
             </View>
