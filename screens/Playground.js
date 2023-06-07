@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, ImageBackground, StyleSheet, View } from "react-native";
+import { ActivityIndicator, ImageBackground, StyleSheet, View, Text } from "react-native";
 import {
   findSpritesPosition, isComplete,
   isFloorOrDestination,
@@ -16,6 +16,8 @@ import sokobanApi from "../services/sokobanApi";
 import Title from "../components/Title";
 import { getBackgroundColor } from "../helpers/help";
 import Confetti from "react-native-confetti";
+import { Ionicons } from '@expo/vector-icons';
+import Button from "../components/Button";
 
 const Playground = ({ navigation, route }) => {
 
@@ -26,24 +28,40 @@ const Playground = ({ navigation, route }) => {
   const [currentCharacterPosition, setCurrentCharacterPosition] = useState({});
   const [lastMove, setLastMove] = useState(CONST.SPRITES.FLOOR);
   const [clickedDirection, setClickedDirection] = useState(null);
+  const [seconds, setSeconds] = useState(0);
   const confettiRef = useRef();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const boardId = route.params.boardId;
-        const result = await sokobanApi.get(`${CONST.ENDPOINT.BOARDS}/${boardId}`);
-        setBoardApi(result.data);
-        setBoard(result.data.rows);
-        setCurrentCharacterPosition(findSpritesPosition(result.data.rows, CONST.SPRITES.CHARACTER));
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching board:", error);
-      }
-    };
-
     fetchData();
   }, [route.params?.boardId]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSeconds(seconds => seconds + 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const boardId = route.params.boardId;
+      const result = await sokobanApi.get(`${CONST.ENDPOINT.BOARDS}/${boardId}`);
+      setBoardApi(result.data);
+      setBoard(result.data.rows);
+      setCurrentCharacterPosition(findSpritesPosition(result.data.rows, CONST.SPRITES.CHARACTER));
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching board:", error);
+    }
+  };
+
+  const resetGame = async () => {
+    setLoading(true);
+    await fetchData();
+    setSeconds(0);
+    setLoading(false);
+  };
 
   const handleMove = (direction) => {
     setClickedDirection(direction);
@@ -82,23 +100,27 @@ const Playground = ({ navigation, route }) => {
   }
 
   return (
-    <ImageBackground source={Ground} imageStyle={{ resizeMode: 'repeat' }} style={styles.backgroundImage}>
-      {
-        !loading ?
-          <View style={styles.container}>
-            <View style={styles.playground}>
-              <Title name={boardApi.name} gradientColors={getBackgroundColor(boardApi.difficulty)} textColor="white"></Title>
-              <Board board={board} direction={clickedDirection} />
-              <MoveButtons handleMove={handleMove} />
-            </View>
-            <DialogModal modalVisible={modalVisible} modalText={"Niveau Complété !"} closeModal={handleCloseModal} btnText={"Suivant"} />
-            <Confetti ref={confettiRef} />
-          </View> :
-          <View style={styles.loaderContainer}>
-            <ActivityIndicator size="large" />
-          </View>
-      }
-    </ImageBackground>
+      <ImageBackground source={Ground} imageStyle={{ resizeMode: 'repeat' }} style={styles.backgroundImage}>
+        {
+          !loading ?
+              <View style={styles.container}>
+                <View style={styles.playground}>
+                  <Title name={boardApi.name} gradientColors={getBackgroundColor(boardApi.difficulty)} textColor="white"></Title>
+                  <Text>Time: {seconds}s</Text>
+                  <Board board={board} direction={clickedDirection} />
+                  <MoveButtons handleMove={handleMove} />
+                  <Button onPress={resetGame} colors={["#32a852", "#2b7f41"]}>
+                    <Ionicons name={"md-refresh"} size={32} color="white" />
+                  </Button>
+                </View>
+                <DialogModal modalVisible={modalVisible} modalText={"Niveau Complété !"} closeModal={handleCloseModal} btnText={"Suivant"} />
+                <Confetti ref={confettiRef} />
+              </View> :
+              <View style={styles.loaderContainer}>
+                <ActivityIndicator size="large" />
+              </View>
+        }
+      </ImageBackground>
   );
 }
 

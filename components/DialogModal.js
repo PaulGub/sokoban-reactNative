@@ -11,7 +11,9 @@ const DialogModal = ({ modalVisible, modalText, btnText, closeModal }) => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>{modalText}</Text>
-            <Button onPress={closeModal} text={btnText} />
+            <Button onPress={closeModal} >
+              <Text style={styles.text}>{btnText}</Text>
+            </Button>
           </View>
         </View>
       </Modal>
@@ -58,7 +60,13 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 15,
+    fontSize: 28,
     textAlign: 'center',
+  },
+  text: {
+    color: "#fff",
+    fontSize: 18,
+    textAlign: "center",
   },
 });
 

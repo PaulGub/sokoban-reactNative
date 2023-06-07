@@ -10,7 +10,9 @@ const Home = ({ navigation }) => {
           <Text style={styles.title}>Sokoban</Text>
           <Text style={styles.subtitle}>par Darloub Games</Text>
         </View>
-        <Button onPress={() => navigation.navigate('BoardList')} text="JOUER" />
+        <Button onPress={() => navigation.navigate('BoardList')}>
+          <Text style={styles.text}>JOUER</Text>
+        </Button>
       </ImageBackground>
   );
 };
@@ -37,6 +39,11 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 18,
     fontStyle: "italic",
+    textAlign: "center",
+  },
+  text: {
+    color: "#fff",
+    fontSize: 18,
     textAlign: "center",
   },
 });

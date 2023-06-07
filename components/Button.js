@@ -1,10 +1,10 @@
 import React, { useRef } from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Audio } from 'expo-av';
 import ClickSound from '../assets/audio/click_sound.mp3';
 
-const Button = ({ onPress, text, colors = ['#FFA07A', '#FF4500'] }) => {
+const Button = ({ onPress, children, colors = ['#FFA07A', '#FF4500'] }) => {
     const soundObject = useRef(new Audio.Sound());
 
     const playSound = async () => {
@@ -25,7 +25,7 @@ const Button = ({ onPress, text, colors = ['#FFA07A', '#FF4500'] }) => {
     return (
         <TouchableOpacity onPress={handlePress} style={styles.button}>
             <LinearGradient colors={colors} style={styles.gradient}>
-                <Text style={styles.buttonText}>{text}</Text>
+                {children}
             </LinearGradient>
         </TouchableOpacity>
     );
@@ -44,14 +44,6 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         paddingHorizontal: 100,
         paddingVertical: 15,
-    },
-    buttonText: {
-        fontFamily: 'VT323',
-        color: "#fff",
-        fontSize: 18,
-        fontWeight: "bold",
-        textTransform: "uppercase",
-        textAlign: "center",
     },
 });
 

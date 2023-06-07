@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Button from './Button';
 import {getBackgroundColor} from "../helpers/help";
@@ -16,7 +16,9 @@ const BoardItem = ({ board }) => {
     return (
         <TouchableOpacity onPress={handlePress}>
             <View style={[styles.boardContainer]}>
-                <Button onPress={handlePress} text={board.name} colors={backgroundColor} />
+                <Button onPress={handlePress} colors={backgroundColor} >
+                    <Text style={styles.text}>{board.name}</Text>
+                </Button>
             </View>
         </TouchableOpacity>
     );
@@ -26,6 +28,12 @@ const styles = StyleSheet.create({
     boardContainer: {
         margin: 5,
         padding: 5,
+    },
+    text: {
+        color: "#fff",
+        fontSize: 18,
+        textAlign: "center",
+        textTransform: "uppercase"
     },
 });
 
