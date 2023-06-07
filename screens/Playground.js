@@ -1,12 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, ImageBackground, StyleSheet, View, Text } from "react-native";
-import {
-  findSpritesPosition, isComplete,
-  isFloorOrDestination,
-  moveCharacter,
-  moveCharacterAndBox,
-  nextSpritePosition
-} from "../helpers/game";
+import { findSpritesPosition, isComplete, isFloorOrDestination, moveCharacter, moveCharacterAndBox, nextSpritePosition } from "../helpers/game";
 import CONST from "../CONST";
 import MoveButtons from "../components/MoveButtons";
 import Board from "../components/Board";
@@ -32,6 +26,7 @@ const Playground = ({ navigation, route }) => {
   const confettiRef = useRef();
 
   useEffect(() => {
+    setSeconds(0);
     fetchData();
   }, [route.params?.boardId]);
 
@@ -39,33 +34,27 @@ const Playground = ({ navigation, route }) => {
     const interval = setInterval(() => {
       setSeconds(seconds => seconds + 1);
     }, 1000);
-
     return () => clearInterval(interval);
   }, []);
 
   const fetchData = async () => {
-    try {
-      const boardId = route.params.boardId;
-      const result = await sokobanApi.get(`${CONST.ENDPOINT.BOARDS}/${boardId}`);
-      setBoardApi(result.data);
-      setBoard(result.data.rows);
-      setCurrentCharacterPosition(findSpritesPosition(result.data.rows, CONST.SPRITES.CHARACTER));
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching board:", error);
-    }
+    const boardId = route.params.boardId;
+    const result = await sokobanApi.get(`${CONST.ENDPOINT.BOARDS}/${boardId}`);
+    setBoardApi(result.data);
+    setBoard(result.data.rows);
+    setCurrentCharacterPosition(findSpritesPosition(result.data.rows, CONST.SPRITES.CHARACTER));
+    setLoading(false);
   };
 
   const resetGame = async () => {
     setLoading(true);
-    await fetchData();
     setSeconds(0);
+    await fetchData();
     setLoading(false);
   };
 
   const handleMove = (direction) => {
     setClickedDirection(direction);
-
     const characterWantedPosition = nextSpritePosition(direction, currentCharacterPosition);
     const characterWantedPositionValue = board[characterWantedPosition.row][characterWantedPosition.col];
     let updatedBoard = board;
@@ -105,13 +94,9 @@ const Playground = ({ navigation, route }) => {
           !loading ?
               <View style={styles.container}>
                 <View style={styles.playground}>
-                  <Title name={boardApi.name} gradientColors={getBackgroundColor(boardApi.difficulty)} textColor="white"></Title>
-                  <Text>Time: {seconds}s</Text>
+                  <Title name={boardApi.name} gradientColors={getBackgroundColor(boardApi.difficulty)} textColor="white" subtitle={`Time: ${seconds}s`} />
                   <Board board={board} direction={clickedDirection} />
-                  <MoveButtons handleMove={handleMove} />
-                  <Button onPress={resetGame} colors={["#32a852", "#2b7f41"]}>
-                    <Ionicons name={"md-refresh"} size={32} color="white" />
-                  </Button>
+                  <MoveButtons handleMove={handleMove} resetGame={resetGame} />
                 </View>
                 <DialogModal modalVisible={modalVisible} modalText={"Niveau Complété !"} closeModal={handleCloseModal} btnText={"Suivant"} />
                 <Confetti ref={confettiRef} />
@@ -128,23 +113,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-
   loaderContainer: {
     flex: 1,
     justifyContent: "center",
     alignContent: "center"
   },
-
   backgroundImage: {
     height: '100%',
   },
-
   playground: {
     justifyContent: 'space-between',
     flexGrow: 1,
     paddingTop: 40,
     paddingBottom: 30,
-  }
+  },
+  titleContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  timer: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
 })
 
 export default Playground;
