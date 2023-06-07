@@ -36,5 +36,34 @@ export default {
 
   ENDPOINT: {
     BOARDS: "/boards"
-  }
+  },
+
+  WALL_COLORS: {
+    BEIGE: 'beige',
+    BROWN: 'brown',
+    BLACK: 'black',
+    GRAY: 'gray',
+  },
+
+  BOX_ENDPOINTS_COLORS: {
+    BEIGE: 'beige',
+    BROWN: 'brown',
+    BLACK: 'black',
+    GRAY: 'gray',
+    RED: 'red',
+    BLUE: 'blue',
+    PURPLE: 'purple',
+    YELLOW: 'yellow',
+  },
+
+  GROUND_COLORS: {
+    CONCRETE: 'concrete',
+    GRASS: 'grass',
+    DIRT: 'dirt',
+    SAND: 'sand',
+    GRAVEL_CONCRETE: 'gravel_concrete',
+    GRAVEL_GRASS: 'gravel_grass',
+    GRAVEL_DIRT: 'gravel_dirt',
+    GRAVEL_SAND: 'gravel_sand',
+  },
 }

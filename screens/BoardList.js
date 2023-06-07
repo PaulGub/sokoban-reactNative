@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
         paddingVertical: 50
     },
     textContainer: {
-        backgroundColor: 'rgba(255,255,255,0.8)', // White with 80% opacity
+        backgroundColor: 'rgba(255,255,255,0.8)',
         borderRadius: 10,
         padding: 10,
         margin: 20,

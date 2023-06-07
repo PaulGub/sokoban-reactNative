@@ -1,25 +1,15 @@
-import { Image, View, Animated, StyleSheet } from "react-native";
-import { imagesAnimated, charToImageSource } from "../helpers/sprites";
+import { Image, View, StyleSheet } from "react-native";
+import { charToImageSource } from "../helpers/sprites";
 import CONST from "../CONST";
-import DefaultCharacterImage from "../assets/sprites/Character4.png"
-const Board = ({ board, direction }) => {
+
+const Board = ({ board, direction, boxColor, destinationColor, wallColor, floorColor }) => {
   return (
     <View style={styles.board}>
       {board.map((row, rowIndex) => (
         <View key={rowIndex} style={styles.row}>
           {row.map((cell, cellIndex) => (
             <View key={cellIndex}>
-              {cell !== CONST.SPRITES.CHARACTER ?
-                <Image source={charToImageSource(cell)} style={styles.image} /> :
-                <Animated.Image
-                  source={
-                    direction
-                      ? imagesAnimated[direction][0]
-                      : DefaultCharacterImage
-                  }
-                  style={styles.image}
-                />
-              }
+              <Image source={charToImageSource(cell, direction, boxColor, destinationColor, wallColor, floorColor)} style={styles.image} />
             </View>
           ))}
         </View>

@@ -4,12 +4,13 @@ import { findSpritesPosition, isComplete, isFloorOrDestination, moveCharacter, m
 import CONST from "../CONST";
 import MoveButtons from "../components/MoveButtons";
 import Board from "../components/Board";
-import Ground from "../assets/sprites/Ground_Concrete.png";
 import DialogModal from "../components/DialogModal";
 import sokobanApi from "../services/sokobanApi";
 import Title from "../components/Title";
 import { getBackgroundColor } from "../helpers/colors";
 import Confetti from "react-native-confetti";
+import { floorImages } from "../helpers/sprites";
+import { getData } from "../services/asyncStorage";
 
 const Playground = ({ navigation, route }) => {
 
@@ -24,9 +25,15 @@ const Playground = ({ navigation, route }) => {
   const [isLevelComplete, setIsLevelComplete] = useState(false)
   const confettiRef = useRef();
 
+  const [wall, setWall] = useState('');
+  const [box, setBox] = useState('');
+  const [destination, setDestination] = useState('');
+  const [floor, setFloor] = useState('');
+
   useEffect(() => {
     setSeconds(0);
     fetchData();
+    getData(setWall, setBox, setDestination, setFloor);
   }, [route.params?.boardId]);
 
   useEffect(() => {
@@ -95,13 +102,13 @@ const Playground = ({ navigation, route }) => {
   }
 
   return (
-      <ImageBackground source={Ground} imageStyle={{ resizeMode: 'repeat' }} style={styles.backgroundImage}>
+      <ImageBackground source={floorImages[floor]} imageStyle={{ resizeMode: 'repeat' }} style={styles.backgroundImage}>
         {
           !loading ?
               <View style={styles.container}>
                 <View style={styles.playground}>
                   <Title name={boardApi.name} gradientColors={getBackgroundColor(boardApi.difficulty)} textColor="white" subtitle={`Time: ${secondsToReadable(seconds)}`} />
-                  <Board board={board} direction={clickedDirection} />
+                  <Board board={board} direction={clickedDirection} wallColor={wall} boxColor={box} destinationColor={destination} floorColor={floor} />
                   <MoveButtons handleMove={handleMove} resetGame={resetGame} />
                 </View>
                 <DialogModal modalVisible={modalVisible} modalText={"Niveau Complété !"} closeModal={handleCloseModal} btnText={"Suivant"} />
