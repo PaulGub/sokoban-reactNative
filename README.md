@@ -27,3 +27,9 @@ L'usage de React Native pour l'application mobile Sokoban était une exigence du
 - **Effet sonore :** Problème de dépendance, nous avons voulu utiliser des dépendances réserve à React Native ne fonctionnant pas avec Expo.
 
 ![Sokoban](https://github.com/PaulGub/sokoban-reactNative/blob/main/Expo_Go.gif)
+
+**Autres Liens :**
+
+L'API (Node.js) : [https://gitlab.com/theojamard/sokoban-admin](https://gitlab.com/theojamard/sokoban-admin)
+
+Créateur de niveau (Vue.js) : [https://gitlab.com/theojamard/sokoban-admin](https://gitlab.com/theojamard/sokoban-admin)
